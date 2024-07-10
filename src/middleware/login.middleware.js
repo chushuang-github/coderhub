@@ -36,6 +36,7 @@ const verifyLogin = async (ctx, next) => {
   await next();
 };
 
+// 验证是否登录
 const verifyAuth = async (ctx, next) => {
   // 1.获取token
   const authorization = ctx.header.authorization;
