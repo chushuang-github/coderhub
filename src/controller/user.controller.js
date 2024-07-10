@@ -10,6 +10,7 @@ class UserController {
 
     // 3.查看存储的结果，告知前端是否创建成功
     ctx.body = {
+      code: 0,
       message: "创建用户成功~",
       data: result,
     };
