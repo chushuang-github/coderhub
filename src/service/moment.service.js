@@ -3,7 +3,7 @@ const connection = require("../app/database");
 class MomentService {
   async create(content, userId) {
     // 1.拼接statement
-    const statement = "INSERT INTO `moment` (content, user_id) VALUES (?, ?);";
+    const statement = `INSERT INTO moment (content, user_id) VALUES (?, ?);`;
 
     // 2.执行sql语句
     const [result] = await connection.execute(statement, [content, userId]);
