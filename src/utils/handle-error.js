@@ -6,6 +6,7 @@ const {
   PASSWORD_IS_INCORRENT,
   UN_AUTHORIZATION,
   OPERATION_IS_NOT_ALLOW,
+  MOMENT_ADD_LABEL_ERROR,
 } = require("../config/error");
 
 app.on("error", (error, ctx) => {
@@ -36,6 +37,10 @@ app.on("error", (error, ctx) => {
     case OPERATION_IS_NOT_ALLOW:
       code = -2001;
       message = "没有操作该资源的权限~";
+      break;
+    case MOMENT_ADD_LABEL_ERROR:
+      code = -3001;
+      message = "为动态添加标签失败，请检查数据是否有问题~";
       break;
   }
 

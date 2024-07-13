@@ -1,4 +1,5 @@
 const momentService = require("../service/moment.service");
+const { MOMENT_ADD_LABEL_ERROR } = require("../config/error");
 
 class MomentController {
   async create(ctx, next) {
@@ -30,7 +31,8 @@ class MomentController {
 
   async detail(ctx, next) {
     const { momentId } = ctx.params;
-    const result = await momentService.queryById(momentId);
+    // const result = await momentService.queryById(momentId);
+    const result = await momentService.queryByIdOptimize(momentId);
     ctx.body = {
       code: 0,
       data: result[0],
@@ -56,6 +58,30 @@ class MomentController {
       message: "修改动态成功~",
       data: result,
     };
+  }
+
+  async addLabels(ctx, next) {
+    // 1.获取参数
+    const { labels } = ctx;
+    const { momentId } = ctx.params;
+
+    // 2.将moment_id和label_id，添加到moment_label关系表中
+    try {
+      for (const label of labels) {
+        // 2.1判断label_id和moment_id，是否已经存在moment_label关系表中
+        const isExists = await momentService.hasLabel(momentId, label.id);
+        if (!isExists) {
+          await momentService.addLabel(momentId, label.id);
+        }
+      }
+
+      ctx.body = {
+        code: 0,
+        message: "动态添加标签成功~",
+      };
+    } catch (error) {
+      ctx.app.emit("error", MOMENT_ADD_LABEL_ERROR, ctx);
+    }
   }
 }
 

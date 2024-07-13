@@ -2,6 +2,7 @@ const KoaRouter = require("@koa/router");
 const momentController = require("../controller/moment.controller");
 const { verifyAuth } = require("../middleware/login.middleware");
 const { verifyPermission } = require("../middleware/permission.middleware");
+const { verifyLabelExists } = require("../middleware/label.middleware");
 
 const momentRouter = new KoaRouter({ prefix: "/moment" });
 
@@ -28,6 +29,15 @@ momentRouter.patch(
   verifyAuth,
   verifyPermission,
   momentController.update
+);
+
+// 6.给动态添加标签
+momentRouter.post(
+  "/:momentId/labels",
+  verifyAuth,
+  verifyPermission,
+  verifyLabelExists,
+  momentController.addLabels
 );
 
 module.exports = momentRouter;
