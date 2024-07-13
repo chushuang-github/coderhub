@@ -8,4 +8,4 @@ dotenv.config();
 
 // 导出方式：从process.env中解构出APP_PORT，之后通过module.exports导出
 // 先解构，在导出，相当于两步操作用下面的方式一起做了
-module.exports = { SERVER_PORT } = process.env;
+module.exports = { SERVER_PORT, SERVER_HOST } = process.env;

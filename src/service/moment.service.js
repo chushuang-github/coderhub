@@ -14,7 +14,7 @@ class MomentService {
     const statement = `
       SELECT  
         m.id id, m.content content, m.createAt createTime, m.updateAt updateTime,
-        JSON_OBJECT("id", u.id, "name", u.name, "createTime", u.createAt, "updateTime", u.updateAt) author,
+        JSON_OBJECT("id", u.id, "name", u.name, "avatarUrl", u.avatar_url, "createTime", u.createAt, "updateTime", u.updateAt) author,
         (SELECT COUNT(*) FROM comment c WHERE c.moment_id = m.id) commentCount,
         (SELECT COUNT(*) FROM moment_label ml WHERE ml.moment_id = m.id) labelCount
       FROM moment m
@@ -33,11 +33,11 @@ class MomentService {
     const statement = `
       SELECT  
         m.id id, m.content content, m.createAt createTime, m.updateAt updateTime,
-        JSON_OBJECT("id", u.id, "name", u.name, "createTime", u.createAt, "updateTime", u.updateAt) author,
+        JSON_OBJECT("id", u.id, "name", u.name, "avatarUrl", u.avatar_url, "createTime", u.createAt, "updateTime", u.updateAt) author,
         JSON_ARRAYAGG(
           JSON_OBJECT(
             "id", c.id, "content", c.content, "commentId", c.comment_id, "createTime", c.createAt, "updateTime", c.updateAt,
-            "author", JSON_OBJECT("id", cu.id, "name", cu.name, "createTime", cu.createAt, "updateTime", cu.updateAt)
+            "author", JSON_OBJECT("id", cu.id, "name", cu.name, "avatarUrl", cu.avatar_url, "createTime", cu.createAt, "updateTime", cu.updateAt)
           )
         ) comments
       FROM moment m
@@ -57,7 +57,7 @@ class MomentService {
     const statement = `
       SELECT  
         m.id id, m.content content, m.createAt createTime, m.updateAt updateTime,
-        JSON_OBJECT("id", u.id, "name", u.name, "createTime", u.createAt, "updateTime", u.updateAt) author,
+        JSON_OBJECT("id", u.id, "name", u.name, "avatarUrl", u.avatar_url, "createTime", u.createAt, "updateTime", u.updateAt) author,
         IF(COUNT(l.id), JSON_ARRAYAGG(
           JSON_OBJECT("id", l.id, "name", l.name)
         ), NULL) labels,
@@ -65,7 +65,7 @@ class MomentService {
           IF(COUNT(c.id), JSON_ARRAYAGG(
             JSON_OBJECT(
               "id", c.id, "content", c.content, "commentId", c.comment_id, "createTime", c.createAt, "updateTime", c.updateAt,
-              "author", JSON_OBJECT("id", cu.id, "name", cu.name, "createTime", cu.createAt, "updateTime", cu.updateAt)
+              "author", JSON_OBJECT("id", cu.id, "name", cu.name, "avatarUrl", cu.avatar_url, "createTime", cu.createAt, "updateTime", cu.updateAt)
             )
           ), NULL)
           FROM comment c
